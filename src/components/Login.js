@@ -9,7 +9,7 @@ const initialFormState = {
     error: "",
 };
 
-const Login = (props) => {
+const Login = () => {
     const [formValues, setFormValues] = useState(initialFormState);
     const {push} = useHistory();
 
@@ -24,6 +24,14 @@ const Login = (props) => {
         e.preventDefault();
         const {username, password} = formValues;
 
+        if (!username || !password) {
+            setFormValues({
+                ...formValues,
+                error: "Username or Password is not valid.",
+            });
+            return;
+        }
+// need to fix error and p tag, errors not showing****
         if(username === "Lambda" && password === "School") {
             axios
                 .post("http://localhost:5000/api/login", {username, password})
@@ -37,11 +45,12 @@ const Login = (props) => {
                     console.log(err)
                     setFormValues({
                         ...formValues, 
-                        error: "Username or Password is not valid"
+                        error: "Username or Password is not valid.",
                     })
                 })
         }
 
+       
     }
 
     
@@ -51,10 +60,38 @@ const Login = (props) => {
         <ModalContainer>
             <h1>Welcome to Blogger Pro</h1>
             <h2>Please enter your account information.</h2>
-        </ModalContainer>
-        <div>
 
-        </div>
+            <div className="login-form">
+                <form onSubmit={handleSubmit}>
+                    <label>
+                        Username 
+                        <input
+                            type="text"
+                            name="username"
+                            id="username"
+                            value={formValues.username}
+                            onChange={handleChange}
+                        />
+                    </label>
+
+                    <label>
+                        Password 
+                        <input
+                            type="password"
+                            name="password"
+                            id="password"
+                            value={formValues.password}
+                            onChange={handleChange}
+                        />  
+                    </label>
+
+                    <button type="submit" id="submit">Log In</button>
+                   
+                </form>
+                <p id="error" className="error">
+                    {formValues.error}</p>
+             </div>
+        </ModalContainer>
     </ComponentContainer>
     
     );
