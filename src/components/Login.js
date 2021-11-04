@@ -1,14 +1,63 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router';
 import styled from 'styled-components';
 
-const Login = () => {
+const initialFormState = {
+    username: "",
+    password: "",
+    error: "",
+};
+
+const Login = (props) => {
+    const [formValues, setFormValues] = useState(initialFormState);
+    const {push} = useHistory();
+
+    const handleChange = (e) => {
+        setFormValues({
+            ...formValues,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const {username, password} = formValues;
+
+        if(username === "Lambda" && password === "School") {
+            axios
+                .post("http://localhost:5000/api/login", {username, password})
+                .then((res) => {
+                    console.log(res)
+                    localStorage.setItem("token", res.data.payload);
+                    setFormValues({...formValues, error: ""});
+                    push("/view")
+                })
+                .catch((err) => {
+                    console.log(err)
+                    setFormValues({
+                        ...formValues, 
+                        error: "Username or Password is not valid"
+                    })
+                })
+        }
+
+    }
+
     
-    return(<ComponentContainer>
+    return(
+
+    <ComponentContainer>
         <ModalContainer>
             <h1>Welcome to Blogger Pro</h1>
             <h2>Please enter your account information.</h2>
         </ModalContainer>
-    </ComponentContainer>);
+        <div>
+
+        </div>
+    </ComponentContainer>
+    
+    );
 }
 
 export default Login;

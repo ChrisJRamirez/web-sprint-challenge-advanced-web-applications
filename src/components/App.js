@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Redirect } from "react-router-dom";
+import { Route, Redirect, Switch } from "react-router-dom";
 import PrivateRoute from './PrivateRoute';
 import styled from 'styled-components';
 
@@ -17,7 +17,13 @@ const App = () => {
       <RouteContainer>
         <Route exact path="/">
           <Login/>
-        </Route>          
+        </Route>
+
+        <Switch>
+          <PrivateRoute path="/view" component={View} />
+          <Route path="/login" component={Login} />
+          <PrivateRoute path="/logout" component={Logout} />
+        </Switch>          
       </RouteContainer>
     </AppContainer>
   )
