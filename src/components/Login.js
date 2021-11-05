@@ -24,27 +24,26 @@ const Login = (props) => {
         e.preventDefault();
         const {username, password} = formValues;
 
-        if (!username || !password) {
-            setFormValues({
-                ...formValues,
-                error: "Username or Password is not valid.",
-            });
-            return;
-        }
-        // need to fix error and p tag, errors not showing****
-        if(username === "Lambda" && password === "School") {
+        // if (!username || !password) {
+        //     setFormValues({
+        //         ...formValues,
+        //         error: "Username or Password is not valid.",
+        //     });
+        //     return;
+        // }
+        // if(username === "Lambda" && password === "School") {
             axios
                 .post("http://localhost:5000/api/login", {username, password})
                 .then((res) => {
                     console.log(res)
                     localStorage.setItem("token", res.data.payload);
-                    setFormValues({...formValues, error: ""});
                     push("/view")
                 })
                 .catch((err) => {
+                    console.log("there was an error posting API")
                     setError(err.response.data.error)
                 })
-        }
+        // }
     }
 
     return(
@@ -82,7 +81,8 @@ const Login = (props) => {
                    
                 </form>
                 <p id="error" className="error">
-                    {error}</p>
+                    {error}
+                </p>
              </div>
         </ModalContainer>
     </ComponentContainer>
