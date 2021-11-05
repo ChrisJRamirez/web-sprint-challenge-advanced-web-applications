@@ -36,11 +36,12 @@ const Login = (props) => {
                 .post("http://localhost:5000/api/login", {username, password})
                 .then((res) => {
                     console.log(res)
-                    localStorage.setItem("token", res.data.payload);
+                    console.log(res.data.token)
+                    localStorage.setItem("token", res.data.token);
                     push("/view")
                 })
                 .catch((err) => {
-                    console.log("there was an error posting API")
+                    console.log("Incorrect login info")
                     setError(err.response.data.error)
                 })
         // }

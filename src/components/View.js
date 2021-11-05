@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import React, { useEffect, useState, useHistory } from 'react';
 import styled from 'styled-components';
 import articleServices from '../services/articleServices';
 
@@ -13,11 +14,40 @@ const View = () => {
     useEffect(() => {
         articleServices(setArticles);
     }, []);
+
+    // useEffect(() => {
+    //     axios.get("http://localhost:5000/api/articles")
+    //         .then(res => {
+    //             console.log(res)
+    //             setArticles(res.data)
+    //         })
+    //         .catch(err => {
+    //             console.log(err)
+    //         })
+    // }, [])
     
     const handleDelete = (id) => {
+        axios.delete(`http://localhost:5000/api/articles/${id}`)
+            .then(res => {
+                console.log(res)
+                setArticles(res.data)
+                // should you push/articles??
+            })
+            .catch(err => {
+                console.log(err)
+            })
     }
 
     const handleEdit = (article) => {
+        axios.put(`http://localhost:5000/api/articles/${id}`, article)
+            .then(res => {
+                console.log(res)
+                setArticles(res.data)
+                // push(`/articles/${id}`)
+            })
+            .catch(err => {
+                console.log(err)
+            })
     }
 
     const handleEditSelect = (id)=> {
