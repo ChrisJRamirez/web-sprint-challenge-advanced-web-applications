@@ -3,14 +3,14 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
 
-const initialFormState = {
-    username: "",
-    password: "",
-    error: "",
-};
+const Login = (props) => {
+    const [formValues, setFormValues] = useState({
+        username: "",
+        password: "",
+    });
 
-const Login = () => {
-    const [formValues, setFormValues] = useState(initialFormState);
+    const [error, setError] = useState("")
+
     const {push} = useHistory();
 
     const handleChange = (e) => {
@@ -31,7 +31,7 @@ const Login = () => {
             });
             return;
         }
-// need to fix error and p tag, errors not showing****
+        // need to fix error and p tag, errors not showing****
         if(username === "Lambda" && password === "School") {
             axios
                 .post("http://localhost:5000/api/login", {username, password})
@@ -42,18 +42,11 @@ const Login = () => {
                     push("/view")
                 })
                 .catch((err) => {
-                    console.log(err)
-                    setFormValues({
-                        ...formValues, 
-                        error: "Username or Password is not valid.",
-                    })
+                    setError(err.response.data.error)
                 })
         }
-
-       
     }
 
-    
     return(
 
     <ComponentContainer>
@@ -85,11 +78,11 @@ const Login = () => {
                         />  
                     </label>
 
-                    <button type="submit" id="submit">Log In</button>
+                    <button type="submit" id="submit">Submit</button>
                    
                 </form>
                 <p id="error" className="error">
-                    {formValues.error}</p>
+                    {error}</p>
              </div>
         </ModalContainer>
     </ComponentContainer>
