@@ -10,6 +10,9 @@ import Login from './Login';
 import Logout from './Logout';
 
 const App = () => {
+
+  
+
   return (
     <AppContainer>
       <LambdaHeader/>
@@ -20,9 +23,14 @@ const App = () => {
         </Route>
 
         <Switch>
+
           <PrivateRoute path="/view" component={View} />
-          <Route path="/login" component={Login} />
+          
           <PrivateRoute path="/logout" component={Logout} />
+
+          <Route path="/login" component={Login} />
+          
+
         </Switch>          
       </RouteContainer>
     </AppContainer>
