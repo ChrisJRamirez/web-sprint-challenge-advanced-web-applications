@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState, useHistory } from 'react';
 import styled from 'styled-components';
 import articleServices from '../services/articleServices';
+import { axiosWithAuth } from '../utils/axiosWithAuth';
 
 import Article from './Article';
 import EditForm from './EditForm';
@@ -26,12 +27,23 @@ const View = () => {
     //         })
     // }, [])
     
-    const handleDelete = (id) => {
-        axios.delete(`http://localhost:5000/api/articles/${id}`)
-            .then(res => {
+    // const handleDelete = (id) => {
+    //     axios.delete(`http://localhost:5000/api/articles/${id}`)
+    //         .then(res => {
+    //             console.log(res.data)
+    //             setArticles(res.data)
+    //             // should you push/articles??
+    //         })
+    //         .catch(err => {
+    //             console.log(err)
+    //         })
+    // }
+
+    const handleDelete = (articleToDelete) => {
+        axiosWithAuth()
+            .delete(`/articles/${articleToDelete.id}`)
+            .then((res) => {
                 console.log(res)
-                setArticles(res.data)
-                // should you push/articles??
             })
             .catch(err => {
                 console.log(err)
