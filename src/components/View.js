@@ -1,5 +1,6 @@
 import axios from 'axios';
-import React, { useEffect, useState, useHistory } from 'react';
+import React, { useEffect, useState  } from 'react';
+import { useParams, useHistory } from 'react-router';
 import styled from 'styled-components';
 import articleServices from '../services/articleServices';
 import { axiosWithAuth } from '../utils/axiosWithAuth';
@@ -11,6 +12,9 @@ const View = () => {
     const [articles, setArticles] = useState([]);
     const [editing, setEditing] = useState(false);
     const [editId, setEditId] = useState();
+
+    // const {id} = useParams();
+    const { push } = useHistory();
 
     useEffect(() => {
         articleServices(setArticles);
@@ -39,22 +43,56 @@ const View = () => {
     //         })
     // }
 
-    const handleDelete = (articleToDelete) => {
+    // const handleDelete = (id) => {
+    //     axios.delete(`http://localhost:5000/api/articles/${id}`, {headers: {
+    //         authorization: token }})
+    //     .then( res => {
+    //         props.deleteArticle(res.data);
+    //         push("/articles")
+    //     })
+    //     .catch(err => {
+    //         console.log(err)
+    //     })
+    // }
+
+    const deleteArticle = (id) => {
+        setArticles(
+            articles.filter((article) => {
+                return id !== article.id
+            })
+        )
+    }
+    
+
+    const handleDelete = (id) => {
         axiosWithAuth()
-            .delete(`/articles/${articleToDelete.id}`)
+            .delete(`/articles/${id}`)
             .then((res) => {
-                console.log(res)
+                console.log(res.data)
+                deleteArticle(res.data);
+                push("/view")
             })
             .catch(err => {
                 console.log(err)
             })
     }
 
+    // const handleDelete = (articleToDelete) => {
+    //     axiosWithAuth()
+    //         .delete(`/articles/${articleToDelete.id}`)
+    //         .then((res) => {
+    //             console.log(res)
+    //         })
+    //         .catch(err => {
+    //             console.log(err)
+    //         })
+    // }
+
     const handleEdit = (article) => {
         axios.put(`http://localhost:5000/api/articles/${id}`, article)
             .then(res => {
                 console.log(res)
-                setArticles(res.data)
+                setArticles(res)
                 // push(`/articles/${id}`)
             })
             .catch(err => {
