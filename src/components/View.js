@@ -13,7 +13,7 @@ const View = () => {
     const [editing, setEditing] = useState(false);
     const [editId, setEditId] = useState();
 
-    const {id} = useParams();
+    // const {id} = useParams();
     const { push } = useHistory();
 
     useEffect(() => {
@@ -55,21 +55,23 @@ const View = () => {
     //     })
     // }
 
-    const deleteArticle = (id) => {
-        setArticles(
-            articles.filter((article) => {
-                return id !== article.id
-            })
-        )
-    }
+    // const deleteArticle = (id) => {
+    //     setArticles(
+    //         articles.filter((article) => {
+    //             return id !== article.id
+    //         })
+    //     )
+    // }
     
-
-    const handleDelete = () => {
+   
+    const fetchArticle = () => articleServices().then((res) => 
+      setArticles(res))
+      
+    const handleDelete = (articleToDelete) => {
         axiosWithAuth()
-            .delete(`/articles/${id}`)
+            .delete(`/articles/${articleToDelete.id}`)
             .then((res) => {
-                // console.log(res.data)
-                // deleteArticle(res.data);
+                setArticles(res.data)
                 push("/articles")
             })
             .catch(err => {
@@ -104,10 +106,10 @@ const View = () => {
         axiosWithAuth()
             .put(`http://localhost:5000/api/articles/${id}`, articles)
             .then(res => {
-                console.log(res)
-                setArticles(res)
+                console.log(res.data)
+                setArticles(res.data)
                 setEditing(false)
-                push(`/articles/${id}`)
+                push(`/view`)
             })
             .catch(err => {
                 console.log(err)

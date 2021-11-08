@@ -18,7 +18,7 @@ const EditForm = (props)=> {
         axios.get(`http://localhost:5000/api/articles${editId}`)
             .then(res => {
                 console.log(res)
-                setArticle(res.data)
+                setArticle(res.data.id)
             })
 
 
