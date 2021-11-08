@@ -35,8 +35,8 @@ const Login = (props) => {
             axios
                 .post("http://localhost:5000/api/login", {username, password})
                 .then((res) => {
-                    console.log(res)
-                    console.log(res.data.token)
+                    // console.log(res)
+                    // console.log(res.data.token)
                     localStorage.setItem("token", res.data.token);
                     push("/view")
                 })

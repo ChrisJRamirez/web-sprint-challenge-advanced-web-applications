@@ -13,7 +13,7 @@ const View = () => {
     const [editing, setEditing] = useState(false);
     const [editId, setEditId] = useState();
 
-    // const {id} = useParams();
+    const {id} = useParams();
     const { push } = useHistory();
 
     useEffect(() => {
@@ -64,13 +64,13 @@ const View = () => {
     }
     
 
-    const handleDelete = (id) => {
+    const handleDelete = () => {
         axiosWithAuth()
             .delete(`/articles/${id}`)
             .then((res) => {
-                console.log(res.data)
-                deleteArticle(res.data);
-                push("/view")
+                // console.log(res.data)
+                // deleteArticle(res.data);
+                push("/articles")
             })
             .catch(err => {
                 console.log(err)
@@ -88,15 +88,30 @@ const View = () => {
     //         })
     // }
 
-    const handleEdit = (article) => {
-        axios.put(`http://localhost:5000/api/articles/${id}`, article)
+    // const handleEdit = (article) => {
+    //     axios.put(`http://localhost:5000/api/articles/${id}`, article)
+    //         .then(res => {
+    //             console.log(res)
+    //             setArticles(res)
+    //             // push(`/articles/${id}`)
+    //         })
+    //         .catch(err => {
+    //             console.log(err)
+    //         })
+    // }
+
+    const handleEdit = (id) => {
+        axiosWithAuth()
+            .put(`http://localhost:5000/api/articles/${id}`, articles)
             .then(res => {
                 console.log(res)
                 setArticles(res)
-                // push(`/articles/${id}`)
+                setEditing(false)
+                push(`/articles/${id}`)
             })
             .catch(err => {
                 console.log(err)
+                
             })
     }
 
